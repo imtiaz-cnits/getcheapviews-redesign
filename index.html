@@ -1483,8 +1483,8 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
           <li><a href="#faq">Frequently Asked Questions</a></li>
           <li><a href="https://getcheapview.net" target="_blank">Order Tracking (getcheapview.net)</a></li>
           <li><a href="#why-us">Why Choose Us</a></li>
-          <li><a href="#">Terms of Service</a></li>
-          <li><a href="#">Privacy &amp; Refund Policy</a></li>
+          <li><a href="javascript:void(0)" onclick="openLegalModal('terms')">Terms of Service</a></li>
+          <li><a href="javascript:void(0)" onclick="openLegalModal('privacy')">Privacy &amp; Refund Policy</a></li>
         </ul>
       </div>
       <div>
@@ -2041,6 +2041,49 @@ function closeMobileDrawer() {
   }
 }
 
+
+// Legal Modal (Terms & Privacy)
+function openLegalModal(type) {
+  const modal = document.getElementById('legalModal');
+  const title = document.getElementById('legalModalTitle');
+  const subtitle = document.getElementById('legalModalSubtitle');
+  const body = document.getElementById('legalModalBody');
+
+  if (type === 'terms') {
+    title.textContent = 'Terms of Service';
+    subtitle.textContent = 'Our commitment to safe, compliant and transparent social growth.';
+    body.innerHTML = `
+      <h5 style="color:var(--dark);font-size:15px;margin-bottom:6px">1. Safe Delivery &amp; Algorithmic Compliance</h5>
+      <p style="margin-bottom:14px">GetCheapViews delivers real social engagement via natural, organic discovery networks. We never deploy abusive scripts, headless bots, or techniques that breach platform terms of service.</p>
+      
+      <h5 style="color:var(--dark);font-size:15px;margin-bottom:6px">2. Zero Password Policy</h5>
+      <p style="margin-bottom:14px">We will never request your account password, email credentials, or administrative access. All orders only require a publicly accessible video, post, or profile link.</p>
+
+      <h5 style="color:var(--dark);font-size:15px;margin-bottom:6px">3. Delivery Timelines</h5>
+      <p style="margin-bottom:14px">Most orders start automatically within 0 to 30 minutes of payment confirmation. High-volume orders (e.g. 50,000+ views) are throttled with gradual drip-feed scheduling to ensure maximum natural retention.</p>
+    `;
+  } else {
+    title.textContent = 'Privacy &amp; Refund Policy';
+    subtitle.textContent = '30-Day Auto-Refill Guarantee and complete data confidentiality.';
+    body.innerHTML = `
+      <h5 style="color:var(--dark);font-size:15px;margin-bottom:6px">1. 30-Day Auto-Refill Guarantee</h5>
+      <p style="margin-bottom:14px">In the rare event of algorithmic drop-offs within 30 days of delivery, our automated systems or 24/7 support will refill the difference completely free of charge.</p>
+      
+      <h5 style="color:var(--dark);font-size:15px;margin-bottom:6px">2. 100% Money-Back Guarantee</h5>
+      <p style="margin-bottom:14px">If we fail to initiate your campaign within 24 hours of payment due to technical failure or invalid target URL, you are entitled to a full 100% refund with no questions asked.</p>
+
+      <h5 style="color:var(--dark);font-size:15px;margin-bottom:6px">3. Data Confidentiality</h5>
+      <p style="margin-bottom:14px">Your email address and order history are protected by 256-bit SSL encryption. We never sell, lease, or share client details with third parties or advertising brokers.</p>
+    `;
+  }
+
+  modal.classList.add('active');
+}
+function closeLegalModal() {
+  const modal = document.getElementById('legalModal');
+  if (modal) modal.classList.remove('active');
+}
+
 // Top Announcement Bar
 // Top Announcement Bar
 function closeTopBar() {
@@ -2217,6 +2260,29 @@ setTimeout(() => {
       <a href="https://getcheapview.net" target="_blank" class="palette-wholesale-link">
         <i class="fa-solid fa-bolt" style="color:#f59e0b"></i> Bulk Agency Wholesale Orders on <strong>getcheapview.net</strong> ↗
       </a>
+    </div>
+  </div>
+</div>
+
+
+<!-- LEGAL / TERMS & PRIVACY MODAL -->
+<div class="modal-overlay" id="legalModal" onclick="if(event.target===this)closeLegalModal()">
+  <div class="modal-box" style="max-width:620px">
+    <button class="modal-close" onclick="closeLegalModal()">&times;</button>
+    <div class="modal-header">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <span class="platform-pill" style="background:#f0fdf4;color:#166534;border:1px solid #bbf7d0">
+          <i class="fa-solid fa-shield-halved"></i> 100% White-Hat Guarantee
+        </span>
+      </div>
+      <h3 id="legalModalTitle">Terms of Service &amp; Customer Protection</h3>
+      <p id="legalModalSubtitle">Transparent, safe and algorithm-compliant service policies.</p>
+    </div>
+    <div id="legalModalBody" style="font-size:14px;color:var(--text);line-height:1.7;max-height:380px;overflow-y:auto;padding-right:8px;margin:16px 0">
+      <!-- Populated dynamically via JS -->
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;margin-top:20px;border-top:1px solid var(--border);padding-top:16px">
+      <button type="button" class="btn-boost" onclick="closeLegalModal()" style="padding:9px 20px;font-size:13.5px">I Understand &bull; Close</button>
     </div>
   </div>
 </div>
