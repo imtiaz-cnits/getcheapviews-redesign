@@ -594,16 +594,12 @@ header{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.95);backdro
 .svc-head{text-align:center;margin-bottom:34px}
 
 /* Segmented Platform Tabs with Distinct Colors */
-.platform-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:30px 0 20px}
+.platform-tabs{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:30px 0 32px}
 .ptab{border:1px solid var(--border);background:#fff;border-radius:24px;padding:9px 16px;font-weight:600;font-size:13.5px;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .15s;color:var(--dark)}
 .ptab:hover{border-color:var(--primary);color:var(--primary-deep);transform:translateY(-1px)}
 .ptab.active{background:var(--dark);color:#fff;border-color:var(--dark);box-shadow:0 4px 14px rgba(15,23,42,.25)}
 .ptab-badge{background:rgba(0,0,0,.08);padding:2px 7px;border-radius:10px;font-size:11px}
 .ptab.active .ptab-badge{background:rgba(255,255,255,.2);color:#fff}
-
-.svc-view-notice{background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 20px;max-width:760px;margin:0 auto 28px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:13.5px;box-shadow:0 2px 8px rgba(0,0,0,.03)}
-.svc-view-notice i{color:var(--primary);margin-right:6px}
-.svc-count-badge{background:var(--primary-soft);color:var(--primary-deep);padding:4px 12px;border-radius:20px;font-weight:700;font-size:12px;border:1px solid var(--primary-border)}
 
 /* Clean Modern Service Cards with Colorful Icons */
 .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-top:20px}
@@ -849,7 +845,6 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
   .grid4,.fcols,.fstats,.pkg-options{grid-template-columns:1fr}
   .top-bar-inner{font-size:12.5px;padding-right:20px}
   .hero h1{font-size:32px}
-  .svc-view-notice{flex-direction:column;align-items:flex-start}
   .order-toast{left:14px;right:14px;bottom:80px;max-width:calc(100% - 28px)}
 }
 </style>
@@ -1111,15 +1106,6 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
       <button class="ptab" onclick="filterPlatform('Bluesky')">
         <i class="fa-solid fa-cloud" style="color:#0284c7"></i> Bluesky
       </button>
-    </div>
-
-    <!-- Notice Bar for 10 Services rule -->
-    <div class="svc-view-notice">
-      <div>
-        <i class="fa-solid fa-circle-info" style="color:var(--primary)"></i>
-        <span id="serviceNoticeText">Showing <strong>top 10 services</strong> for fast checkout. Click below to view all catalog services.</span>
-      </div>
-      <span class="svc-count-badge" id="serviceCountBadge">10 Services Displayed</span>
     </div>
 
     <!-- Dynamic Grid -->
@@ -1734,24 +1720,18 @@ function renderServices() {
 
   grid.innerHTML = html;
 
-  // Update controls and badges
+  // Update controls
   const btn = document.getElementById('btnToggleAll');
-  const countBadge = document.getElementById('serviceCountBadge');
-  const noticeText = document.getElementById('serviceNoticeText');
-
-  countBadge.textContent = `${itemsToShow.length} of ${filtered.length} Services Displayed`;
-
-  if (filtered.length <= DISPLAY_LIMIT) {
-    btn.style.display = 'none';
-    noticeText.innerHTML = `Showing all <strong>${filtered.length} services</strong> for ${currentPlatform === 'all' ? 'Featured' : currentPlatform}.`;
-  } else {
-    btn.style.display = 'inline-flex';
-    if (isExpanded) {
-      btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> Show Less (Back to 10 Services)`;
-      noticeText.innerHTML = `Showing all <strong>${filtered.length} services</strong> across platforms.`;
+  if (btn) {
+    if (filtered.length <= DISPLAY_LIMIT) {
+      btn.style.display = 'none';
     } else {
-      btn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> View All Services (${remaining} More Services)`;
-      noticeText.innerHTML = `Showing <strong>top 10 services</strong> for quick checkout. Click below to expand the remaining <strong>${remaining} services</strong>.`;
+      btn.style.display = 'inline-flex';
+      if (isExpanded) {
+        btn.innerHTML = `<i class="fa-solid fa-chevron-up"></i> Show Less (Back to 10 Services)`;
+      } else {
+        btn.innerHTML = `<i class="fa-solid fa-chevron-down"></i> View All Services (${remaining} More Services)`;
+      }
     }
   }
 }
@@ -1915,12 +1895,7 @@ function handleCatalogSearch(query) {
 
   const grid = document.getElementById('serviceGrid');
   const btn = document.getElementById('btnToggleAll');
-  const countBadge = document.getElementById('serviceCountBadge');
-  const noticeText = document.getElementById('serviceNoticeText');
-
-  btn.style.display = 'none';
-  countBadge.textContent = `${matches.length} Services Found`;
-  noticeText.innerHTML = `Found <strong>${matches.length} matching services</strong> for "<strong>${query}</strong>":`;
+  if (btn) btn.style.display = 'none';
 
   if (matches.length === 0) {
     grid.innerHTML = `
