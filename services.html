@@ -742,10 +742,10 @@ header{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.95);backdro
 .cta::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 50% 30%,rgba(236,72,153,.18),transparent 70%);pointer-events:none}
 .cta h2{font-size:42px;font-weight:900;position:relative}.cta p{margin:18px auto 30px;max-width:540px;opacity:.95;font-size:17px;position:relative}
 .cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative}
-.cta-btns a{padding:16px 36px;border-radius:11px;font-weight:800;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:all .2s}
-.cta-btns .w{background:#fff;color:var(--dark);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+.cta-btns a,.cta-btns button{padding:16px 36px;border-radius:11px;font-weight:800;font-size:15px;display:inline-flex;align-items:center;gap:8px;transition:all .2s;font-family:var(--font-primary);text-decoration:none;cursor:pointer}
+.cta-btns .w{background:#fff;color:var(--dark);box-shadow:0 6px 20px rgba(0,0,0,.2);border:0}
 .cta-btns .w:hover{background:#f8fafc;transform:translateY(-2px);color:var(--primary-dark)}
-.cta-btns .o{border:2px solid rgba(255,255,255,.8);color:#fff}
+.cta-btns .o{border:2px solid rgba(255,255,255,.8);color:#fff;background:transparent}
 .cta-btns .o:hover{background:rgba(255,255,255,.15);transform:translateY(-2px)}
 .cta small{display:flex;gap:30px;justify-content:center;margin-top:30px;font-size:13px;flex-wrap:wrap;position:relative}
 
@@ -1824,25 +1824,27 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
 </section>
 
 <!-- BOTTOM CTA SECTION -->
-<section class="cta-section" style="background:var(--primary-navy);color:#fff;text-align:center;padding:85px 0;position:relative;overflow:hidden">
-  <div class="container" style="position:relative;z-index:2">
-    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(20,162,221,.18);color:#38bdf8;padding:6px 16px;border-radius:20px;font-size:12.5px;font-weight:700;margin-bottom:20px">
+<!-- CTA CONVERSION SECTION (MATCHING HOME PAGE) -->
+<section class="cta" id="contact">
+  <div class="container">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(20,162,221,.18);color:#38bdf8;padding:6px 16px;border-radius:20px;font-size:12.5px;font-weight:700;margin-bottom:20px;border:1px solid rgba(56,189,248,.3)">
       <i class="fa-solid fa-shield-halved" style="color:#34d399"></i> 100% SATISFACTION GUARANTEED
     </div>
-    <h2 style="font-size:42px;font-weight:900;margin-bottom:16px;letter-spacing:-0.5px">
-      Ready to Ignite Your <span class="grad-text">Digital Presence</span>?
-    </h2>
-    <p style="font-size:17px;color:#94a3b8;max-width:620px;margin:0 auto 36px;line-height:1.6">
-      Join thousands of verified creators, record labels, and brands using GetCheapViews to scale natural social reach today.
-    </p>
-    <div style="display:flex;justify-content:center;gap:14px;flex-wrap:wrap">
-      <button onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})" class="btn-boost" style="padding:15px 36px;font-size:16px">
-        <i class="fa-solid fa-layer-group"></i> Browse All 36 Packages
+    <h2>Ready to Ignite Your <span class="grad-text">Digital Presence</span>?</h2>
+    <p>Join thousands of verified creators, record labels, and brands using GetCheapViews to scale natural social reach today.</p>
+    <div class="cta-btns">
+      <button onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})" class="w">
+        <i class="fa-solid fa-layer-group" style="color:var(--primary)"></i> Browse All 36 Packages
       </button>
-      <a href="https://getcheapview.net" target="_blank" class="btn-panel-cta" style="padding:15px 32px;font-size:15px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2)">
-        <i class="fa-solid fa-gauge-high"></i> Reseller Wholesale Panel
+      <a href="https://getcheapview.net" target="_blank" class="o">
+        <i class="fa-solid fa-gauge-high" style="color:#38bdf8"></i> Wholesale SMM Panel (getcheapview.net) ↗
       </a>
     </div>
+    <small>
+      <span><i class="fa-solid fa-lock" style="color:#10b981"></i> 256-Bit SSL Encrypted</span>
+      <span><i class="fa-brands fa-cc-visa" style="color:#60a5fa"></i> <i class="fa-brands fa-cc-mastercard" style="color:#f97316"></i> <i class="fa-brands fa-paypal" style="color:#38bdf8"></i> Major Cards &amp; Crypto</span>
+      <span><i class="fa-solid fa-shield-halved" style="color:#10b981"></i> 100% Money-Back Guarantee</span>
+    </small>
   </div>
 </section>
 
@@ -1920,10 +1922,13 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
 
 <!-- FLOATING LIVE ORDER NOTIFICATION TOAST -->
 <div class="order-toast" id="orderToast">
-  <div class="toast-dot"></div>
-  <div class="toast-info">
-    <div class="toast-title" id="toastTitle">New Order Dispatched</div>
-    <div class="toast-meta" id="toastMeta">Just now &bull; YouTube 5,000 Views</div>
+  <div class="toast-icon" id="toastIconWrap" style="background:#fee2e2;color:#ef4444;border:1px solid #fecaca">
+    <i class="fa-brands fa-youtube" id="toastIcon"></i>
+  </div>
+  <div class="toast-body">
+    <strong id="toastTitle">New Order from Miami, US</strong>
+    <span id="toastDesc">Purchased <strong>5,000 YouTube Views</strong></span>
+    <small id="toastTime" style="display:block">2 mins ago &bull; Verified</small>
   </div>
   <button class="toast-close" onclick="document.getElementById('orderToast').classList.remove('show')">&times;</button>
 </div>
@@ -3251,25 +3256,38 @@ function toggleFaq(el) {
   item.classList.toggle('active');
 }
 
-// Floating Order Dispatch Toast
-const toastEvents = [
-  { title: 'New YouTube Dispatch', meta: 'Just now &bull; 5,000 High Retention Views' },
-  { title: 'Instagram Order Started', meta: '1 min ago &bull; 1,000 Real Followers' },
-  { title: 'Spotify Stream Surge', meta: '3 mins ago &bull; 10,000 Algorithmic Plays' },
-  { title: 'TikTok Campaign Active', meta: '4 mins ago &bull; 25,000 Viral Views' },
-  { title: 'Facebook Fans Delivered', meta: '6 mins ago &bull; 500 Page Followers' },
-  { title: 'YouTube Watch Hours', meta: '8 mins ago &bull; 4,000 YPP Watch Hours' }
+// Live floating order toast ticker (matching home page)
+const recentOrders = [
+  { city: 'Miami, US', item: '5,000 YouTube Views', ago: '2 mins ago', icon: 'fa-brands fa-youtube', bg: '#fee2e2', color: '#ef4444' },
+  { city: 'London, UK', item: '1,000 Spotify Plays', ago: '4 mins ago', icon: 'fa-brands fa-spotify', bg: '#ecfdf5', color: '#10b981' },
+  { city: 'Toronto, CA', item: '2,500 Instagram Followers', ago: '6 mins ago', icon: 'fa-brands fa-instagram', bg: '#fdf2f8', color: '#db2777' },
+  { city: 'Sydney, AU', item: '10,000 TikTok Views', ago: '8 mins ago', icon: 'fa-brands fa-tiktok', bg: '#f8fafc', color: '#0f172a' },
+  { city: 'Berlin, DE', item: '500 Facebook Page Likes', ago: '11 mins ago', icon: 'fa-brands fa-facebook', bg: '#eff6ff', color: '#1877f2' },
+  { city: 'New York, US', item: '1,000 Twitter Retweets', ago: '15 mins ago', icon: 'fa-brands fa-x-twitter', bg: '#f8fafc', color: '#0f172a' }
 ];
-let toastIndex = 0;
+let toastIdx = 0;
 function showOrderToast() {
   const toast = document.getElementById('orderToast');
   if (!toast) return;
-  const evt = toastEvents[toastIndex % toastEvents.length];
-  document.getElementById('toastTitle').textContent = evt.title;
-  document.getElementById('toastMeta').innerHTML = evt.meta;
+  const o = recentOrders[toastIdx % recentOrders.length];
+  const iconWrap = document.getElementById('toastIconWrap');
+  if (iconWrap) {
+    iconWrap.style.background = o.bg;
+    iconWrap.style.color = o.color;
+  }
+  const icon = document.getElementById('toastIcon');
+  if (icon) icon.className = o.icon;
+  const title = document.getElementById('toastTitle');
+  if (title) title.textContent = `New Order from ${o.city}`;
+  const desc = document.getElementById('toastDesc');
+  if (desc) desc.innerHTML = `Purchased <strong>${o.item}</strong>`;
+  const time = document.getElementById('toastTime');
+  if (time) time.textContent = `${o.ago} • Verified`;
   toast.classList.add('show');
-  toastIndex++;
-  setTimeout(() => toast.classList.remove('show'), 5000);
+  toastIdx++;
+  setTimeout(() => {
+    toast.classList.remove('show');
+  }, 4500);
 }
 
 // Initialize on page load
