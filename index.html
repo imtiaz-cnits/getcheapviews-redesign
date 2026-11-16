@@ -829,6 +829,83 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
 .lead-gift{width:70px;height:70px;background:#fffbeb;border-radius:50%;color:#d97706;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 16px;border:1.5px solid #fde68a}
 .lead-code-box{background:#f1f5f9;border:2px dashed var(--primary);padding:12px;border-radius:10px;font-weight:800;font-size:20px;letter-spacing:2px;color:var(--primary-deep);margin:16px 0;display:none}
 
+
+/* ================= SIDE CART DRAWER (FULL HEIGHT ON RIGHT) ================= */
+#orderModal.modal-overlay{
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 19, 34, 0.68);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 300;
+  display: flex;
+  justify-content: flex-end;
+  align-items: stretch;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#orderModal.modal-overlay.active{
+  opacity: 1;
+  pointer-events: auto;
+}
+#orderModal .modal-box{
+  background: #fff;
+  width: 100%;
+  max-width: 500px;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  border-radius: 0;
+  border-top-left-radius: 20px;
+  border-bottom-left-radius: 20px;
+  box-shadow: -12px 0 50px rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+  transform: translateX(100%);
+  transition: transform .35s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: none;
+}
+#orderModal.modal-overlay.active .modal-box{
+  transform: translateX(0);
+}
+.cart-drawer-header{
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  background: #fff;
+  position: relative;
+  flex-shrink: 0;
+}
+.cart-drawer-header .modal-close{
+  top: 18px;
+  right: 20px;
+}
+.cart-drawer-body{
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+.cart-drawer-footer{
+  padding: 16px 24px 20px;
+  background: #fafcfe;
+  border-top: 1px solid #e2e8f0;
+  flex-shrink: 0;
+}
+@media(max-width:580px){
+  #orderModal .modal-box{
+    max-width: 100%;
+    border-radius: 0;
+  }
+  .cart-drawer-header, .cart-drawer-body, .cart-drawer-footer{
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
+
 /* ================= RESPONSIVE ================= */
 @media(max-width:980px){
   .menu, .nav-search-icon-btn{display:none}
@@ -1500,83 +1577,93 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
   <button class="toast-close" onclick="document.getElementById('orderToast').classList.remove('show')">&times;</button>
 </div>
 
-<!-- ORDER / CHECKOUT MODAL -->
-<div class="modal-overlay" id="orderModal">
+<!-- ORDER / CART SLIDE-OVER DRAWER (FULL HEIGHT ON RIGHT) -->
+<div class="modal-overlay" id="orderModal" onclick="if(event.target===this)closeOrderModal()">
   <div class="modal-box">
-    <button class="modal-close" onclick="closeOrderModal()">&times;</button>
-    <div class="modal-header">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+    <!-- Fixed Drawer Header -->
+    <div class="cart-drawer-header">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;padding-right:45px">
+        <span style="font-size:11.5px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--primary);display:inline-flex;align-items:center;gap:6px">
+          <i class="fa-solid fa-cart-shopping"></i> Instant Order Cart
+        </span>
         <span class="platform-pill" id="mPlatform">YouTube</span>
-        <img src="assets/logo.png" alt="GetCheapViews" style="height:28px;width:auto">
       </div>
-      <h3 id="mTitle">YouTube High Retention Views</h3>
-      <p id="mDesc">Get authentic views delivered quickly and safely.</p>
+      <h3 id="mTitle" style="font-size:20px;font-weight:900;color:var(--dark);margin-bottom:4px">YouTube High Retention Views</h3>
+      <p id="mDesc" style="color:var(--text);font-size:13px;line-height:1.5">Get authentic views delivered quickly and safely.</p>
+      <button class="modal-close" onclick="closeOrderModal()" aria-label="Close Cart">&times;</button>
     </div>
 
-    <!-- NOTICE PROMOTING GETCHEAPVIEW.NET -->
-    <div class="order-panel-promo">
-      <i class="fa-solid fa-circle-nodes"></i>
-      <div>
-        <h5>💡 Tip: Track Live Orders On Our Main Panel!</h5>
-        <p>Want to track every order in real-time, get instant automated refills, and place wholesale orders anytime? Sign up directly on our automated panel: <strong>getcheapview.net</strong></p>
-        <a href="https://getcheapview.net" target="_blank">Go to getcheapview.net <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px"></i></a>
-      </div>
-    </div>
+    <!-- Scrollable Drawer Form -->
+    <form onsubmit="handleCheckout(event)" style="display:flex;flex-direction:column;flex:1;overflow:hidden">
+      <div class="cart-drawer-body">
+        <!-- NOTICE PROMOTING GETCHEAPVIEW.NET -->
+        <div class="order-panel-promo">
+          <i class="fa-solid fa-circle-nodes"></i>
+          <div>
+            <h5>💡 Tip: Track Live Orders On Our Main Panel!</h5>
+            <p>Want to track every order in real-time, get instant automated refills, and place wholesale orders anytime? Sign up directly on our automated panel: <strong>getcheapview.net</strong></p>
+            <a href="https://getcheapview.net" target="_blank">Go to getcheapview.net <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:11px"></i></a>
+          </div>
+        </div>
 
-    <form onsubmit="handleCheckout(event)">
-      <div class="order-group">
-        <label>Select Quantity</label>
-        <div class="pkg-options">
-          <div class="pkg-btn active" onclick="selectPkg(this, 1000, 1)">
-            <b>1,000</b>
-            <span id="pkgPrice1">$3.99</span>
+        <div class="order-group">
+          <label style="font-size:13px;font-weight:700;color:#374151;margin-bottom:8px;display:block">Select Growth Package Quantity</label>
+          <div class="pkg-options">
+            <div class="pkg-btn active" onclick="selectPkg(this, 1000, 1)">
+              <b>1,000</b>
+              <span id="pkgPrice1">$3.99</span>
+            </div>
+            <div class="pkg-btn" onclick="selectPkg(this, 5000, 4.2)">
+              <b>5,000</b>
+              <span id="pkgPrice2">$16.75</span>
+            </div>
+            <div class="pkg-btn" onclick="selectPkg(this, 10000, 7.5)">
+              <b>10,000</b>
+              <span id="pkgPrice3">$29.90</span>
+            </div>
           </div>
-          <div class="pkg-btn" onclick="selectPkg(this, 5000, 4.2)">
-            <b>5,000</b>
-            <span id="pkgPrice2">$16.75</span>
-          </div>
-          <div class="pkg-btn" onclick="selectPkg(this, 10000, 7.5)">
-            <b>10,000</b>
-            <span id="pkgPrice3">$29.90</span>
-          </div>
+        </div>
+
+        <div class="order-group">
+          <label style="font-size:13px;font-weight:700;color:#374151;margin-bottom:8px;display:block">Your Target Public URL / Profile Link</label>
+          <input class="order-input" type="text" placeholder="https://www.youtube.com/watch?v=... or profile URL" required>
+          <small style="display:block;margin-top:5px;font-size:12px;color:#64748b"><i class="fa-solid fa-lock" style="color:#10b981"></i> 100% password-free. Public link only.</small>
+        </div>
+
+        <div class="order-group">
+          <label style="font-size:13px;font-weight:700;color:#374151;margin-bottom:8px;display:block">Your Email Address (For Order Tracking &amp; Receipt)</label>
+          <input class="order-input" type="email" id="orderEmail" placeholder="you@example.com" required>
         </div>
       </div>
 
-      <div class="order-group">
-        <label>Your Public URL / Profile Link</label>
-        <input class="order-input" type="text" placeholder="https://www.youtube.com/watch?v=... or profile URL" required>
-      </div>
-
-      <div class="order-group">
-        <label>Your Email Address (For Order Tracking &amp; Receipt)</label>
-        <input class="order-input" type="email" id="orderEmail" placeholder="you@example.com" required>
-      </div>
-
-      <div style="background:#f0f9ff;border:1px solid var(--primary-border);border-radius:10px;padding:14px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:center">
-        <div>
-          <span style="font-size:13px;color:var(--text);display:block">Total Due</span>
-          <strong style="font-size:22px;color:var(--dark)" id="mTotal">$3.99</strong>
+      <!-- Sticky Drawer Footer -->
+      <div class="cart-drawer-footer">
+        <div style="background:#f0f9ff;border:1px solid var(--primary-border);border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <span style="font-size:12px;color:var(--text);font-weight:600;display:block">Total Due</span>
+            <strong style="font-size:22px;color:var(--dark);font-weight:900" id="mTotal">$3.99</strong>
+          </div>
+          <div style="font-size:12px;color:#047857;font-weight:700;background:#ecfdf5;padding:4px 10px;border-radius:20px;border:1px solid #a7f3d0">
+            <i class="fa-solid fa-shield-halved"></i> 100% Guarantee
+          </div>
         </div>
-        <div style="font-size:12px;color:var(--green);font-weight:700">
-          <i class="fa-solid fa-shield-halved"></i> 100% Money-Back Guarantee
+
+        <button type="submit" class="btn-checkout">
+          <i class="fa-solid fa-lock"></i> Complete Order Now &bull; <span id="btnAmount">$3.99</span>
+        </button>
+
+        <div style="display:flex;gap:12px;justify-content:center;margin-top:12px;font-size:20px">
+          <i class="fa-brands fa-cc-visa" style="color:#2563eb" title="Visa"></i>
+          <i class="fa-brands fa-cc-mastercard" style="color:#ea580c" title="Mastercard"></i>
+          <i class="fa-brands fa-paypal" style="color:#0079c1" title="PayPal"></i>
+          <i class="fa-brands fa-cc-apple-pay" style="color:#475569" title="Apple Pay"></i>
+          <i class="fa-brands fa-stripe" style="color:#6366f1" title="Stripe"></i>
+          <i class="fa-brands fa-bitcoin" style="color:#f59e0b" title="Crypto"></i>
         </div>
-      </div>
 
-      <button type="submit" class="btn-checkout">
-        <i class="fa-solid fa-lock"></i> Complete Order Now &bull; <span id="btnAmount">$3.99</span>
-      </button>
-
-      <div style="display:flex;gap:14px;justify-content:center;margin-top:14px;font-size:22px">
-        <i class="fa-brands fa-cc-visa" style="color:#2563eb" title="Visa"></i>
-        <i class="fa-brands fa-cc-mastercard" style="color:#ea580c" title="Mastercard"></i>
-        <i class="fa-brands fa-paypal" style="color:#0079c1" title="PayPal"></i>
-        <i class="fa-brands fa-cc-apple-pay" style="color:#475569" title="Apple Pay"></i>
-        <i class="fa-brands fa-stripe" style="color:#6366f1" title="Stripe"></i>
-        <i class="fa-brands fa-bitcoin" style="color:#f59e0b" title="Crypto"></i>
-      </div>
-
-      <div style="text-align:center;margin-top:12px;font-size:12px;color:#94a3b8">
-        <i class="fa-solid fa-check" style="color:var(--green)"></i> Instant Automated Start &bull; No Passwords Ever &bull; 256-Bit SSL
+        <div style="text-align:center;margin-top:8px;font-size:11.5px;color:#94a3b8">
+          <i class="fa-solid fa-check" style="color:#10b981"></i> Instant Automated Start &bull; No Passwords Ever &bull; 256-Bit SSL
+        </div>
       </div>
     </form>
   </div>
@@ -1875,6 +1962,18 @@ window.addEventListener('keydown', function(e) {
     if (palette && palette.classList.contains('active')) {
       closeSearchPalette();
     }
+    const orderModal = document.getElementById('orderModal');
+    if (orderModal && orderModal.classList.contains('active')) {
+      closeOrderModal();
+    }
+    const leadModal = document.getElementById('leadModal');
+    if (leadModal && leadModal.classList.contains('active')) {
+      closeLeadModal();
+    }
+    const legalModal = document.getElementById('legalModal');
+    if (legalModal && legalModal.classList.contains('active')) {
+      closeLegalModal();
+    }
   }
 });
 
@@ -2062,9 +2161,11 @@ function openOrderModal(platform, title, price, basePrice = 3.99) {
   document.getElementById('btnAmount').textContent = `$${(activeBasePrice).toFixed(2)}`;
 
   document.getElementById('orderModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
 }
 function closeOrderModal() {
   document.getElementById('orderModal').classList.remove('active');
+  document.body.style.overflow = '';
 }
 function selectPkg(el, qty, mult) {
   document.querySelectorAll('.pkg-options .pkg-btn').forEach(b => b.classList.remove('active'));
