@@ -1140,42 +1140,56 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
   border-color: var(--primary);
 }
 
-/* Category pills in catalog */
+/* Category pills in catalog & Modern Custom Slider */
+.category-slider-wrapper{
+  position: relative;
+  margin-top: 4px;
+}
 .category-pill-row{
   display: flex;
   align-items: center;
   gap: 8px;
   overflow-x: auto;
-  padding-bottom: 6px;
-  scrollbar-width: thin;
+  scroll-behavior: smooth;
+  padding: 10px 4px 12px 4px; /* Generous vertical padding: hover lift will NEVER get cut off */
+  scrollbar-width: none; /* Hide default ugly browser scrollbar in Firefox */
+  -ms-overflow-style: none; /* Hide in IE/Edge */
+}
+.category-pill-row::-webkit-scrollbar{
+  display: none; /* Hide default ugly browser scrollbar in Chrome/Safari/Edge */
+  width: 0;
+  height: 0;
 }
 .cat-pill{
   background: #f8fafc;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border);
   border-radius: 24px;
-  padding: 8px 16px;
+  padding: 9px 18px;
   font-size: 13px;
   font-weight: 700;
   color: var(--text);
   cursor: pointer;
-  transition: all .2s;
+  transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 7px;
   font-family: var(--font-primary);
+  user-select: none;
 }
 .cat-pill:hover{
   border-color: var(--primary);
   background: #f0f9ff;
   color: var(--primary-deep);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(20, 162, 221, 0.16);
 }
 .cat-pill.active{
   background: var(--dark);
   color: #fff;
   border-color: var(--dark);
-  box-shadow: 0 4px 12px rgba(15,23,42,.2);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.22);
+  transform: translateY(0);
 }
 .cat-count-badge{
   background: rgba(0,0,0,0.08);
@@ -1186,6 +1200,79 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
 .cat-pill.active .cat-count-badge{
   background: rgba(255,255,255,0.22);
   color: #fff;
+}
+
+/* Modern Custom Slider Track & Buttons */
+.pill-slider-track-wrap{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 8px;
+  padding: 4px 0 2px;
+}
+.pill-slider-arrow{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 1.5px solid #e2e8f0;
+  background: #fff;
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all .2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
+}
+.pill-slider-arrow:hover{
+  border-color: var(--primary);
+  color: var(--primary-deep);
+  background: #f0f9ff;
+  transform: scale(1.06);
+}
+.pill-slider-arrow:active{
+  transform: scale(0.95);
+}
+.pill-slider-arrow.disabled{
+  opacity: 0.35;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+.pill-slider-track{
+  flex: 1;
+  max-width: 360px;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background .2s;
+}
+.pill-slider-track:hover{
+  background: #cbd5e1;
+}
+.pill-slider-thumb{
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  min-width: 44px;
+  background: linear-gradient(90deg, #14A2DD, #0284c7);
+  border-radius: 999px;
+  cursor: grab;
+  box-shadow: 0 2px 6px rgba(20, 162, 221, 0.35);
+  transition: background .2s, box-shadow .2s;
+}
+.pill-slider-thumb:hover, .pill-slider-thumb.dragging{
+  background: linear-gradient(90deg, #0ea5e9, #0369a1);
+  box-shadow: 0 2px 8px rgba(20, 162, 221, 0.55);
+}
+.pill-slider-thumb:active, .pill-slider-thumb.dragging{
+  cursor: grabbing;
 }
 
 /* Rich Service Card Design */
@@ -1531,8 +1618,9 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
         </div>
       </div>
 
-      <!-- Segmented Platform Filter Pills -->
-      <div class="category-pill-row" id="categoryPillRow">
+      <!-- Segmented Platform Filter Pills with Modern Slider -->
+      <div class="category-slider-wrapper">
+        <div class="category-pill-row" id="categoryPillRow">
         <button class="cat-pill active" onclick="filterCatalog('all', this)">
           <i class="fa-solid fa-fire" style="color:#f97316"></i> All Services <span class="cat-count-badge">36</span>
         </button>
@@ -1573,6 +1661,22 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
           <i class="fa-solid fa-cloud" style="color:#0284c7"></i> Bluesky <span class="cat-count-badge">1</span>
         </button>
       </div>
+
+      <!-- Modern Custom Slider Control (Replaces Default Native Scrollbar) -->
+      <div class="pill-slider-track-wrap" id="pillSliderWrap">
+        <button class="pill-slider-arrow prev" id="pillSliderPrev" onclick="scrollCategoryPills(-260)" aria-label="Scroll left" title="Scroll left">
+          <i class="fa-solid fa-chevron-left"></i>
+        </button>
+
+        <div class="pill-slider-track" id="pillSliderTrack" title="Click or drag to slide categories">
+          <div class="pill-slider-thumb" id="pillSliderThumb"></div>
+        </div>
+
+        <button class="pill-slider-arrow next" id="pillSliderNext" onclick="scrollCategoryPills(260)" aria-label="Scroll right" title="Scroll right">
+          <i class="fa-solid fa-chevron-right"></i>
+        </button>
+      </div>
+    </div>
     </div>
 
     <!-- Dynamic Catalog Grid -->
@@ -2677,8 +2781,158 @@ function renderCatalog() {
 function filterCatalog(category, el) {
   currentCategory = category;
   document.querySelectorAll('.cat-pill').forEach(btn => btn.classList.remove('active'));
-  if (el) el.classList.add('active');
+  if (el) {
+    el.classList.add('active');
+    try {
+      el.scrollIntoView({ behavior: 'smooth', inline: 'nearest', block: 'nearest' });
+    } catch(e) {}
+  }
   renderCatalog();
+}
+
+// Category Horizontal Slider Logic
+function scrollCategoryPills(offset) {
+  const row = document.getElementById('categoryPillRow');
+  if (row) {
+    row.scrollBy({ left: offset, behavior: 'smooth' });
+  }
+}
+
+function initCategorySlider() {
+  const row = document.getElementById('categoryPillRow');
+  const track = document.getElementById('pillSliderTrack');
+  const thumb = document.getElementById('pillSliderThumb');
+  const prevBtn = document.getElementById('pillSliderPrev');
+  const nextBtn = document.getElementById('pillSliderNext');
+  const wrap = document.getElementById('pillSliderWrap');
+  if (!row || !track || !thumb) return;
+
+  function updateSlider() {
+    const scrollLeft = row.scrollLeft;
+    const scrollWidth = row.scrollWidth;
+    const clientWidth = row.clientWidth;
+    const maxScroll = scrollWidth - clientWidth;
+
+    if (maxScroll <= 1) {
+      if (wrap) wrap.style.display = 'none';
+      return;
+    } else {
+      if (wrap) wrap.style.display = 'flex';
+    }
+
+    const trackWidth = track.clientWidth;
+    const ratio = clientWidth / scrollWidth;
+    const thumbWidth = Math.max(44, Math.min(trackWidth * 0.7, trackWidth * ratio));
+    thumb.style.width = thumbWidth + 'px';
+
+    const maxThumbLeft = trackWidth - thumbWidth;
+    const scrollRatio = scrollLeft / maxScroll;
+    const thumbLeft = Math.max(0, Math.min(maxThumbLeft, scrollRatio * maxThumbLeft));
+    thumb.style.left = thumbLeft + 'px';
+
+    if (prevBtn) {
+      if (scrollLeft <= 5) prevBtn.classList.add('disabled');
+      else prevBtn.classList.remove('disabled');
+    }
+    if (nextBtn) {
+      if (scrollLeft >= maxScroll - 5) nextBtn.classList.add('disabled');
+      else nextBtn.classList.remove('disabled');
+    }
+  }
+
+  // Scroll listener
+  row.addEventListener('scroll', updateSlider, { passive: true });
+  window.addEventListener('resize', updateSlider);
+
+  // Horizontal wheel scroll support
+  row.addEventListener('wheel', (e) => {
+    if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+      e.preventDefault();
+      row.scrollLeft += e.deltaY;
+    }
+  }, { passive: false });
+
+  // Click on track to jump
+  track.addEventListener('click', (e) => {
+    if (e.target === thumb) return;
+    const rect = track.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const trackWidth = rect.width;
+    const thumbWidth = thumb.offsetWidth;
+    const maxThumbLeft = trackWidth - thumbWidth;
+    const targetThumbLeft = Math.max(0, Math.min(maxThumbLeft, clickX - thumbWidth / 2));
+    const targetScrollRatio = maxThumbLeft > 0 ? targetThumbLeft / maxThumbLeft : 0;
+    const maxScroll = row.scrollWidth - row.clientWidth;
+    row.scrollTo({
+      left: targetScrollRatio * maxScroll,
+      behavior: 'smooth'
+    });
+  });
+
+  // Dragging thumb
+  let isDragging = false;
+  let startX = 0;
+  let startScrollLeft = 0;
+
+  thumb.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    startScrollLeft = row.scrollLeft;
+    thumb.classList.add('dragging');
+    document.body.style.userSelect = 'none';
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    const deltaX = e.clientX - startX;
+    const trackWidth = track.clientWidth;
+    const thumbWidth = thumb.offsetWidth;
+    const maxThumbLeft = trackWidth - thumbWidth;
+    const maxScroll = row.scrollWidth - row.clientWidth;
+    if (maxThumbLeft > 0) {
+      const scrollDelta = (deltaX / maxThumbLeft) * maxScroll;
+      row.scrollLeft = startScrollLeft + scrollDelta;
+    }
+  });
+
+  window.addEventListener('mouseup', () => {
+    if (isDragging) {
+      isDragging = false;
+      thumb.classList.remove('dragging');
+      document.body.style.userSelect = '';
+    }
+  });
+
+  // Touch drag support
+  thumb.addEventListener('touchstart', (e) => {
+    isDragging = true;
+    startX = e.touches[0].clientX;
+    startScrollLeft = row.scrollLeft;
+    thumb.classList.add('dragging');
+  }, { passive: true });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!isDragging) return;
+    const deltaX = e.touches[0].clientX - startX;
+    const trackWidth = track.clientWidth;
+    const thumbWidth = thumb.offsetWidth;
+    const maxThumbLeft = trackWidth - thumbWidth;
+    const maxScroll = row.scrollWidth - row.clientWidth;
+    if (maxThumbLeft > 0) {
+      const scrollDelta = (deltaX / maxThumbLeft) * maxScroll;
+      row.scrollLeft = startScrollLeft + scrollDelta;
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    if (isDragging) {
+      isDragging = false;
+      thumb.classList.remove('dragging');
+    }
+  });
+
+  // Initial calculation
+  setTimeout(updateSlider, 60);
 }
 
 // Search handling
@@ -3022,6 +3276,7 @@ function showOrderToast() {
 document.addEventListener('DOMContentLoaded', function() {
   renderCatalog();
   checkUrlParams();
+  initCategorySlider();
   setInterval(showOrderToast, 14000);
   setTimeout(showOrderToast, 3500);
 });
