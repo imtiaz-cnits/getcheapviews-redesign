@@ -690,6 +690,8 @@ header{position:sticky;top:0;z-index:90;background:rgba(255,255,255,.95);backdro
 .panel-features{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:26px}
 .panel-feature{background:rgba(255,255,255,.12);border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;display:inline-flex;align-items:center;gap:6px}
 .panel-feature i{color:#38bdf8}
+.btn-boost{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--grad-primary);color:#fff;border:0;padding:12px 24px;border-radius:11px;font-weight:700;font-size:14.5px;cursor:pointer;box-shadow:0 4px 14px rgba(20,162,221,.28);transition:all .2s;text-decoration:none}
+.btn-boost:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(20,162,221,.4);color:#fff}
 .btn-panel-cta{display:inline-flex;align-items:center;gap:10px;background:#38bdf8;color:#071e3d;font-weight:800;padding:15px 28px;border-radius:11px;font-size:15px;transition:all .2s;box-shadow:0 6px 20px rgba(56,189,248,.35)}
 .btn-panel-cta:hover{background:#7dd3fc;transform:translateY(-2px);box-shadow:0 8px 24px rgba(56,189,248,.5)}
 .panel-preview-card{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:26px;text-align:center}
@@ -1764,60 +1766,35 @@ footer{background:var(--primary-navy);color:#cbd5e1;padding:65px 0 30px;border-t
 </section>
 
 <!-- SERVICES FAQ ACCORDION -->
-<section style="background:#f8fafc;padding:85px 0" id="faq">
-  <div class="container">
+<section class="faq-section" id="faq">
+  <div class="container faq-wrap">
     <h2 class="title">Frequently Asked <span class="grad-text">Questions</span> About Services</h2>
     <p class="sub">Everything you need to know about our delivery process, channel safety, and package guarantees.</p>
 
-    <div class="faq" style="max-width:840px;margin:42px auto 0">
-      <div class="item">
-        <div class="q" onclick="toggleFaq(this)">
-          Are your YouTube views and watchtime safe for monetization?
-          <i class="fa-solid fa-chevron-down"></i>
-        </div>
-        <div class="ans">
-          Yes, 100%. Our YouTube views and watch hours are generated through legitimate discovery networks that emulate authentic human watching patterns with natural retention curves. They never trigger automated bot filters and are completely safe for YouTube Partner Program (YPP) revenue generation and Google AdSense compliance.
-        </div>
+    <div id="faqs">
+      <div class="faq open">
+        <button><span>Are your YouTube views and watchtime safe for monetization?</span> <i class="fa-solid fa-plus"></i></button>
+        <div class="ans">Yes, 100%. Our YouTube views and watch hours are generated through legitimate discovery networks that emulate authentic human watching patterns with natural retention curves. They never trigger automated bot filters and are completely safe for YouTube Partner Program (YPP) revenue generation and Google AdSense compliance.</div>
       </div>
 
-      <div class="item">
-        <div class="q" onclick="toggleFaq(this)">
-          How fast will my growth package start delivering?
-          <i class="fa-solid fa-chevron-down"></i>
-        </div>
-        <div class="ans">
-          Most packages begin dispatching automatically within 0 to 30 minutes of payment confirmation. High-volume orders (e.g. 50,000+ views or 5,000+ followers) are delivered with gradual organic pacing over several hours or days to guarantee safe, natural growth curves.
-        </div>
+      <div class="faq">
+        <button><span>How fast will my growth package start delivering?</span> <i class="fa-solid fa-plus"></i></button>
+        <div class="ans">Most packages begin dispatching automatically within 0 to 30 minutes of payment confirmation. High-volume orders (e.g. 50,000+ views or 5,000+ followers) are delivered with gradual organic pacing over several hours or days to guarantee safe, natural growth curves.</div>
       </div>
 
-      <div class="item">
-        <div class="q" onclick="toggleFaq(this)">
-          Do you ever need my account password or login access?
-          <i class="fa-solid fa-chevron-down"></i>
-        </div>
-        <div class="ans">
-          Never. We will never ask for your account password, email credentials, or two-factor codes. All we need is your public post, video, or profile URL. Always keep your passwords private and safe.
-        </div>
+      <div class="faq">
+        <button><span>Do you ever need my account password or login access?</span> <i class="fa-solid fa-plus"></i></button>
+        <div class="ans">Never. We will never ask for your account password, email credentials, or two-factor codes. All we need is your public post, video, or profile URL. Always keep your passwords private and safe.</div>
       </div>
 
-      <div class="item">
-        <div class="q" onclick="toggleFaq(this)">
-          What happens if follower or view counts drop after delivery?
-          <i class="fa-solid fa-chevron-down"></i>
-        </div>
-        <div class="ans">
-          All our verified growth packages come with a complimentary 30-Day Auto-Refill Guarantee. In the rare event of algorithmic drop-offs within 30 days, our automated systems or 24/7 support will refill the difference completely free of charge.
-        </div>
+      <div class="faq">
+        <button><span>What happens if follower or view counts drop after delivery?</span> <i class="fa-solid fa-plus"></i></button>
+        <div class="ans">All our verified growth packages come with a complimentary 30-Day Auto-Refill Guarantee. In the rare event of algorithmic drop-offs within 30 days, our automated systems or 24/7 support will refill the difference completely free of charge.</div>
       </div>
 
-      <div class="item">
-        <div class="q" onclick="toggleFaq(this)">
-          What is the difference between this site and getcheapview.net?
-          <i class="fa-solid fa-chevron-down"></i>
-        </div>
-        <div class="ans">
-          GetCheapViews.com is our fast retail portal designed for creators and businesses who want instant 1-click checkout without creating an account. GetCheapView.net is our automated wholesale SMM panel designed for agencies, resellers, and power users who need bulk pricing, API V2 integration, and real-time milestone logs.
-        </div>
+      <div class="faq">
+        <button><span>What is the difference between this site and getcheapview.net?</span> <i class="fa-solid fa-plus"></i></button>
+        <div class="ans">GetCheapViews.com is our fast retail portal designed for creators and businesses who want instant 1-click checkout without creating an account. GetCheapView.net is our automated wholesale SMM panel designed for agencies, resellers, and power users who need bulk pricing, API V2 integration, and real-time milestone logs.</div>
       </div>
     </div>
   </div>
@@ -3251,9 +3228,14 @@ function closeLegalModal() {
 }
 
 // FAQ Accordion
+function initFaqAccordion() {
+  document.querySelectorAll('.faq button').forEach(b => {
+    b.onclick = () => b.parentElement.classList.toggle('open');
+  });
+}
 function toggleFaq(el) {
-  const item = el.parentElement;
-  item.classList.toggle('active');
+  const item = el.closest('.faq');
+  if (item) item.classList.toggle('open');
 }
 
 // Live floating order toast ticker (matching home page)
@@ -3295,6 +3277,7 @@ document.addEventListener('DOMContentLoaded', function() {
   renderCatalog();
   checkUrlParams();
   initCategorySlider();
+  initFaqAccordion();
   setInterval(showOrderToast, 14000);
   setTimeout(showOrderToast, 3500);
 });
